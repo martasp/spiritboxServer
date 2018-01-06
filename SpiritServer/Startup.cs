@@ -21,12 +21,12 @@ namespace Socket
             {
                 options.Providers.Add<GzipCompressionProvider>();
 
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "unityweb", "application/javascript", "ext/html", "image/svg+xml" });
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "unityweb", "application/javascript", "ext/html", "image/svg+xml", "html", "css", "js" });
             });
 
             services.Configure<GzipCompressionProviderOptions>(options =>
             {
-                options.Level = CompressionLevel.Fastest;
+                options.Level = CompressionLevel.Optimal;
             });
             services.AddCors(o =>
             {
@@ -42,6 +42,7 @@ namespace Socket
         }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDefaultFiles();
             app.UseFileServer();
 
             if (env.IsDevelopment())
